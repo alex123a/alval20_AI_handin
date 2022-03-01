@@ -1,28 +1,41 @@
+from random import randint
+
 A = 'A'
 B = 'B'
+C = 'C'
+D = 'D'
 state = {}
 action = None
-model = {A: None, B: None}
+model = {A: None, B: None, C: None, D: None}
+squares = [A, B, C, D]
 
 RULE_ACTION = {
     1: 'Suck',
     2: 'Right',
     3: 'Left',
-    4: 'NoOp'
+    4: 'NoOp',
+    5: 'Up',
+    6: 'Down'
 }
 
 rules = {
     (A, 'Dirty'): 1,
     (B, 'Dirty'): 1,
+    (C, 'Dirty'): 1,
+    (D, 'Dirty'): 1,
     (A, 'Clean'): 2,
-    (B, 'Clean'): 3,
-    (A, B, 'Clean'): 4,
+    (B, 'Clean'): 6,
+    (C, 'Clean'): 3,
+    (D, 'Clean'): 5,
+    (A, B, C, D, 'Clean'): 4,
 }
 
 environment = {
     A: 'Dirty',
     B: 'Dirty',
-    'Current': A
+    C: 'Clean',
+    D: 'Dirty',
+    'Current': squares[randint(0, 3)]
 }
 
 def interpret_input(input):
@@ -35,8 +48,8 @@ def rule_match(state, rules):
 def update_state(state, action, percept):
     (location, status) = percept
     state = percept
-    if model[A] == model[B] == 'Clean':
-        state = (A, B, 'Clean')
+    if model[A] == model[B] == model[C] == model[D] =='Clean':
+        state = (A, B, C, D, 'Clean')
     model[location] = status
     return state
 
@@ -57,7 +70,11 @@ def actuators(action):
         environment[location] = 'Clean'
     elif action == 'Right' and location == A:
         environment['Current'] = B
-    elif action == 'Left' and location == B:
+    elif action == 'Down' and location == B:
+        environment['Current'] = C
+    elif action == 'Left' and location == C:
+        environment['Current'] = D
+    elif action == 'Up' and location == D:
         environment['Current'] = A
 
 def run(n):
@@ -71,4 +88,4 @@ def run(n):
         (location, status) = sensors()
         print("{:11s}{:9s}{:8s}".format(action, location, status))
 
-run(10)
+run(20)
