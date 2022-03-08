@@ -87,35 +87,38 @@ def successor_fn(state):  # Lookup list of successor states
         return STATE_SPACE[state]
     else:
         for i in new_states:
-            if not ((i[0] == 'A' and i[2] == 'Across' and i[4] == 'Across') or
-                (i[0] == 'A' and i[2] == 'Across' and i[3] == 'Across')):
+            if not ((i[1] == 'E' and i[3] == 'E') or (i[1] == 'E' and i[2] == 'E')):
                 updated_new_state.append(i)
         return updated_new_state
     
-
-# All four entities need to get across river and while not across they are waiting except for farmer there is sailing.
-# The location W is back to get new passengers and A is passengers across river
-INITIAL_STATE = ('W', 'Sailing', 'Waiting', 'Waiting', 'Waiting')
-GOAL_STATE = ('A', 'Across', 'Across', 'Across', 'Across')
-# (Location, Farmer status, Goat status, Cabbage status, Wolf status)
+# W is not across and E is across/sailing
+INITIAL_STATE = ('W', 'W', 'W', 'W')
+GOAL_STATE = ('E', 'E', 'E', 'E')
+# (Farmer status, Goat status, Cabbage status, Wolf status)
 STATE_SPACE = {
-    ('W', 'Sailing', 'Waiting', 'Waiting', 'Waiting'): 
-        [('A', 'Sailing', 'Across', 'Waiting', 'Across'), 
-        ('A', 'Sailing', 'Across', 'Across', 'Waiting'),
-        ('A', 'Sailing', 'Waiting', 'Across', 'Across')],
-    ('A', 'Sailing', 'Across', 'Waiting', 'Across'): 
-        [('W', 'Sailing', 'Across', 'Waiting', 'Across')],
-    ('A', 'Sailing', 'Across', 'Across', 'Waiting'): 
-        [('W', 'Sailing', 'Across', 'Across', 'Waiting')],
-    ('A', 'Sailing', 'Waiting', 'Across', 'Across'): 
-        [('W', 'Sailing', 'Waiting', 'Across', 'Across')],
-    ('W', 'Sailing', 'Across', 'Waiting', 'Across'): 
-        [('A', 'Across', 'Across', 'Across', 'Across')],
-    ('W', 'Sailing', 'Across', 'Across', 'Waiting'): 
-        [('A', 'Across', 'Across', 'Across', 'Across')],
-    ('W', 'Sailing', 'Waiting', 'Across', 'Across'): 
-        [('A', 'Across', 'Across', 'Across', 'Across')],
-    ('A', 'Across', 'Across', 'Across', 'Across'): []
+    ('W', 'W', 'W', 'W'): 
+        [('E', 'E', 'W', 'W'), 
+        ('E', 'W', 'E', 'W'),
+        ('E', 'W', 'W', 'E')],
+    ('E', 'E', 'W', 'W'): 
+        [('E', 'E', 'E', 'W'), ('E', 'E', 'W', 'E')],
+    ('E', 'W', 'E', 'W'): 
+        [('E', 'E', 'E', 'W'), ('E', 'W', 'E', 'E')],
+    ('E', 'W', 'W', 'E'): 
+        [('E', 'E', 'W', 'E'), ('E', 'W', 'E', 'E')],
+    ('E', 'E', 'E', 'W'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'E', 'W', 'E'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'E', 'E', 'W'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'W', 'E', 'E'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'E', 'W', 'E'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'W', 'E', 'E'): 
+        [('E', 'E', 'E', 'E')],
+    ('E', 'E', 'E', 'E'): []
 }
 
 
