@@ -80,39 +80,47 @@ def REMOVE_FIRST(queue):
 
 '''
 Successor function, mapping the nodes to its successors
+I only send the children with the shortest length
 '''
 def successor_fn(state):  # Lookup list of successor states
-    # I only send the children with the shortest length
-    # TODO I THINK TOTAL LENGTH IS THE THING WHICH IS NOT WORKING
     global TOTAL_LENGTH
+
     temp_total_length = TOTAL_LENGTH
-    best_route_dic = {}
-    temp = 100000000000
+    children = STATE_SPACE[state]
+    best_route_dic = {'location': children[0]['location'], 'length': children[0]['length'], 'h': children[0]['h']}
+    temp = temp_total_length + best_route_dic['length'] + best_route_dic['h']
     temp_length = 0
-    for i in STATE_SPACE[state]:
+    temp_index_parent = 0
+    temp_index = 0
+    for i in range(1, len(children)):
         # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
-        temp_length = temp_total_length + i['length']
-        temp_length_with_h = temp_length + i['h']
-        if (temp_length_with_h < temp and i['location'] != GOAL_STATE):
-            print(f'Hallo {i}')
-            best_route_dic = i
-            temp = temp_length + i['h']
-        elif (i['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
-            best_route_dic = i
-            temp = temp_length + i['h']
-        elif (i['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h):
-            best_route_dic = i
-            temp = temp_length + i['h']
+        if children[i]['location'] == state:
+            STATE_SPACE[state][i] = {'location': children[i]['location'], 'length': temp_total_length + children[i]['length'], 'h': children[i]['h']}
+        
+        temp_length = temp_total_length + children[i]['length']
+        temp_length_with_h = temp_length + children[i]['h']
+        if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
+            temp_index = i
+            best_route_dic = children[i]
+            temp = temp_length + children[i]['h']
+        elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
+            temp_index = i
+            best_route_dic = children[i]
+            temp = temp_length + children[i]['h']
+        elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h < temp):
+            temp_index = i
+            best_route_dic = children[i]
+            temp = temp_length + children[i]['h']
     
     TOTAL_LENGTH = temp_total_length + best_route_dic['length']
-    print(best_route_dic['length'])
-    print(f'SDDSADADS {temp_total_length}')
+    if (STATE_SPACE[state][temp_index]['location'] != GOAL_STATE):
+        STATE_SPACE[state][temp_index] = {'location': best_route_dic['location'], 'length': temp_total_length + best_route_dic['length'], 'h': best_route_dic['h']}
     return best_route_dic['location']
     
 
 # W is not across and E is across/sailing
 INITIAL_STATE = 'A'
-GOAL_STATE = 'K' or 'L'
+GOAL_STATE = 'L' or 'K'
 # (Farmer status, Goat status, Cabbage status, Wolf status)
 STATE_SPACE = {
     'A': [{'location': 'B', 'length': 1, 'h': 5}, {'location': 'C', 'length': 2, 'h': 5}, {'location': 'D', 'length': 4, 'h': 2}],
