@@ -81,6 +81,7 @@ Successor function, mapping the nodes to its successors
 '''
 def successor_fn(state):  # Lookup list of successor states
     # I only send the children with the shortest length
+    # This should probably be in another method
     best_route = ('Placeholder', 100000000000000)
     for i in STATE_SPACE[state]:
         if (i[1] < best_route[1]):

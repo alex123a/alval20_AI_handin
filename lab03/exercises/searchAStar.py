@@ -18,7 +18,6 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
     def __repr__(self):
         return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
 
-
 '''
 Search the tree for the goal state and return path from initial state to goal state
 '''
@@ -80,32 +79,33 @@ def REMOVE_FIRST(queue):
 Successor function, mapping the nodes to its successors
 '''
 def successor_fn(state):  # Lookup list of successor states
-    # TODO Modify this method to find best solution
+    # I only send the children with the shortest length
     best_route = ('Placeholder', 100000000000000)
     for i in STATE_SPACE[state]:
         if (i[1] < best_route[1]):
             best_route = i
 
-    return STATE_SPACE[best_route]
+    return [best_route]
     
 
 # W is not across and E is across/sailing
-INITIAL_STATE = ('A', 6)
-GOAL_STATE = ('K', 0) or ('L', 0)
+TOTAL_LENGTH = 0
+INITIAL_STATE = 'A'
+GOAL_STATE = 'K' or 'L'
 # (Farmer status, Goat status, Cabbage status, Wolf status)
 STATE_SPACE = {
-    ('A', 6): [('B', 5), ('C', 5), ('D', 2)],
-    ('B', 5): [('F', 5), ('E', 4), ('A', 6)],
-    ('C', 5): [('E', 4), ('A', 6)],
-    ('D', 2): [('H', 1), ('I', 2), ('J', 1), ('A', 6)],
-    ('F', 5): [('G', 4), ('B', 5)],
-    ('E', 4): [('G', 4), ('H', 1), ('B', 5), ('C', 5)],
-    ('H', 1): [('E', 4), ('D', 2), ('K', 0), ('L', 0)],
-    ('I', 2): [('D', 2), ('L', 0)],
-    ('J', 1): [('D', 2)],
-    ('G', 4): [('F', 5), ('E', 4), ('K', 0)],
-    ('K', 0): [],
-    ('L', 0): []
+    'A': [{'location': 'B', 'length': 1, 'h': 5}, {'location': 'C', 'length': 2, 'h': 5}, {'location': 'D', 'length': 4, 'h': 2}],
+    'B': [{'location': 'F', 'length': 5, 'h': 5}, {'location': 'E', 'length': 4, 'h': 4}, {'location': 'A', 'length': 1, 'h': 6}],
+    'C': [{'location': 'E', 'length': 1, 'h': 4}, {'location': 'A', 'length': 2, 'h': 6}],
+    'D': [{'location': 'H', 'length': 1, 'h': 1}, {'location': 'I', 'length': 4, 'h': 2}, {'location': 'J', 'length': 2, 'h': 1}, {'location': 'A', 'length': 4, 'h': 6}],
+    'F': [{'location': 'G', 'length': 1, 'h': 4}, {'location': 'B', 'length': 5, 'h': 5}],
+    'E': [{'location': 'G', 'length': 2, 'h': 4}, {'location': 'H', 'length': 3, 'h': 1}, {'location': 'B', 'length': 4, 'h': 4}, {'location': 'C', 'length': 1, 'h': 5}],
+    'H': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'L', 'length': 5, 'h': 0}, {'location': 'E', 'length': 3, 'h': 4}, {'location': 'B', 'length': 1, 'h': 2}],
+    'I': [{'location': 'L', 'length': 3, 'h': 0}, {'location': 'D', 'length': 4, 'h': 2}],
+    'J': [{'location': 'D', 'length': 2, 'h': 2}],
+    'G': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'F', 'length': 1, 'h': 5}, {'location': 'E', 'length': 2, 'h': 4}],
+    'K': [],
+    'L': []
 
 
 }
