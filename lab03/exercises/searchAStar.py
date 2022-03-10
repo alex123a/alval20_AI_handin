@@ -1,3 +1,6 @@
+global TOTAL_LENGTH
+TOTAL_LENGTH = 0
+
 class Node:  # Node has only PARENT_NODE, STATE, DEPTH
     def __init__(self, state, parent=None, depth=0):
         self.STATE = state
@@ -80,16 +83,34 @@ Successor function, mapping the nodes to its successors
 '''
 def successor_fn(state):  # Lookup list of successor states
     # I only send the children with the shortest length
-    best_route = ('Placeholder', 100000000000000)
+    # TODO I THINK TOTAL LENGTH IS THE THING WHICH IS NOT WORKING
+    global TOTAL_LENGTH
+    temp_total_length = TOTAL_LENGTH
+    best_route_dic = {}
+    temp = 100000000000
+    temp_length = 0
     for i in STATE_SPACE[state]:
-        if (i[1] < best_route[1]):
-            best_route = i
-
-    return [best_route]
+        # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
+        temp_length = temp_total_length + i['length']
+        temp_length_with_h = temp_length + i['h']
+        if (temp_length_with_h < temp and i['location'] != GOAL_STATE):
+            print(f'Hallo {i}')
+            best_route_dic = i
+            temp = temp_length + i['h']
+        elif (i['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
+            best_route_dic = i
+            temp = temp_length + i['h']
+        elif (i['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h):
+            best_route_dic = i
+            temp = temp_length + i['h']
+    
+    TOTAL_LENGTH = temp_total_length + best_route_dic['length']
+    print(best_route_dic['length'])
+    print(f'SDDSADADS {temp_total_length}')
+    return best_route_dic['location']
     
 
 # W is not across and E is across/sailing
-TOTAL_LENGTH = 0
 INITIAL_STATE = 'A'
 GOAL_STATE = 'K' or 'L'
 # (Farmer status, Goat status, Cabbage status, Wolf status)
@@ -106,8 +127,6 @@ STATE_SPACE = {
     'G': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'F', 'length': 1, 'h': 5}, {'location': 'E', 'length': 2, 'h': 4}],
     'K': [],
     'L': []
-
-
 }
 
 
