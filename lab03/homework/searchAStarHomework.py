@@ -24,7 +24,7 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
         if (SQUARES_STATUS != GOAL_STATE):
             return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
         else:
-            return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH) + ' - Total cost: ' + str(TOTAL_LENGTH)
+            return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
 
 '''
 Search the tree for the goal state and return path from initial state to goal state
@@ -142,6 +142,8 @@ Run tree search and display the nodes in the path to goal node
 def run():
     path = TREE_SEARCH()
     print('Solution path:')
+    print('Total cost from all steps: ' + str(TOTAL_LENGTH))
+    print('States after finished: ' + str(SQUARES_STATUS))
     for node in path:
         node.display()
 
