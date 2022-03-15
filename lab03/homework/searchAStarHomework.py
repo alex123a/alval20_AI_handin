@@ -1,3 +1,5 @@
+from random import randint
+
 global TOTAL_LENGTH
 TOTAL_LENGTH = 0
 
@@ -19,7 +21,7 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
         print(self)
 
     def __repr__(self):
-        if (self.STATE != GOAL_STATE):
+        if (SQUARES_STATUS != GOAL_STATE):
             return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
         else:
             return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH) + ' - Total cost: ' + str(TOTAL_LENGTH)
@@ -33,7 +35,7 @@ def TREE_SEARCH():
     fringe = INSERT(initial_node, fringe)
     while fringe is not None:
         node = REMOVE_FIRST(fringe)
-        if node.STATE == GOAL_STATE:
+        if SQUARES_STATUS == GOAL_STATE:
             return node.path()
         children = EXPAND(node)
         fringe = INSERT_ALL(children, fringe)
@@ -87,57 +89,50 @@ I only send the children with the shortest length
 '''
 def successor_fn(state):  # Lookup list of successor states
     global TOTAL_LENGTH
-
+    if (SQUARES_STATUS == GOAL_STATE):
+        return None
     temp_total_length = TOTAL_LENGTH
     children = STATE_SPACE[state]
-    best_route_dic = {'location': children[0]['location'], 'length': children[0]['length'], 'h': children[0]['h']}
+    best_route_dic = {'tile': children[0]['tile'], 'length': children[0]['length'], 'h': children[0]['h']}
     temp = temp_total_length + best_route_dic['length'] + best_route_dic['h']
     temp_length = 0
     temp_index_parent = 0
     temp_index = 0
     for i in range(1, len(children)):
-        # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
-        if children[i]['location'] == state:
-            STATE_SPACE[state][i] = {'location': children[i]['location'], 'length': temp_total_length + children[i]['length'], 'h': children[i]['h']}
+        # if children[i]['tile'] == state:
+        #     STATE_SPACE[state][i] = {'tile': children[i]['tile'], 'length': temp_total_length + children[i]['length'], 'h': children[i]['h']}
         
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']
-        if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
-            temp_index = i
-            best_route_dic = children[i]
-            temp = temp_length + children[i]['h']
-        elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
-            temp_index = i
-            best_route_dic = children[i]
-            temp = temp_length + children[i]['h']
-        elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h < temp):
+        if (temp_length_with_h < temp):
             temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
     
     TOTAL_LENGTH = temp_total_length + best_route_dic['length']
-    if (STATE_SPACE[state][temp_index]['location'] != GOAL_STATE):
-        STATE_SPACE[state][temp_index] = {'location': best_route_dic['location'], 'length': temp_total_length + best_route_dic['length'], 'h': best_route_dic['h']}
-    return best_route_dic['location']
+    STATE_SPACE[state][temp_index] = {'tile': best_route_dic['tile'], 'length': 1 + temp_total_length + best_route_dic['length'], 'h': best_route_dic['h']}
+    # The if statement checks if it is the same tile again. If it is then it cleans.
+    if best_route_dic['tile'] == state:
+        SQUARES_STATUS[SQUARES_INDEX[state]] = 'Clean'
+    # print(SQUARES_STATUS)
+    return best_route_dic['tile']
     
 
 # W is not across and E is across/sailing
-INITIAL_STATE = 'A'
-GOAL_STATE = 'L' or 'K'
-# (Farmer status, Goat status, Cabbage status, Wolf status)
+SQUARES = ['A', 'B', 'C', 'D']
+SQUARES_INDEX = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
+# A, B, C, D
+SQUARES_STATUS = ['Dirty', 'Dirty', 'Dirty', 'Dirty']
+INITIAL_STATE = SQUARES[randint(0, 3)]
+GOAL_STATE = ['Clean', 'Clean', 'Clean', 'Clean']
+# 
 STATE_SPACE = {
-    'A': [{'location': 'B', 'length': 1, 'h': 5}, {'location': 'C', 'length': 2, 'h': 5}, {'location': 'D', 'length': 4, 'h': 2}],
-    'B': [{'location': 'F', 'length': 5, 'h': 5}, {'location': 'E', 'length': 4, 'h': 4}, {'location': 'A', 'length': 1, 'h': 6}],
-    'C': [{'location': 'E', 'length': 1, 'h': 4}, {'location': 'A', 'length': 2, 'h': 6}],
-    'D': [{'location': 'H', 'length': 1, 'h': 1}, {'location': 'I', 'length': 4, 'h': 2}, {'location': 'J', 'length': 2, 'h': 1}, {'location': 'A', 'length': 4, 'h': 6}],
-    'F': [{'location': 'G', 'length': 1, 'h': 4}, {'location': 'B', 'length': 5, 'h': 5}],
-    'E': [{'location': 'G', 'length': 2, 'h': 4}, {'location': 'H', 'length': 3, 'h': 1}, {'location': 'B', 'length': 4, 'h': 4}, {'location': 'C', 'length': 1, 'h': 5}],
-    'H': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'L', 'length': 5, 'h': 0}, {'location': 'E', 'length': 3, 'h': 4}, {'location': 'B', 'length': 1, 'h': 2}],
-    'I': [{'location': 'L', 'length': 3, 'h': 0}, {'location': 'D', 'length': 4, 'h': 2}],
-    'J': [{'location': 'D', 'length': 2, 'h': 2}],
-    'G': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'F', 'length': 1, 'h': 5}, {'location': 'E', 'length': 2, 'h': 4}],
-    'K': [],
-    'L': []
+    # Every list contains the same tile again (if this is chosen it will be cleaned) and the two tiles it can move to
+    # I don't have "do nothing"
+    'A': [{'tile': 'A', 'length': 1, 'h': 0}, {'tile': 'B', 'length': 5, 'h': 0}, {'tile': 'C', 'length': 6, 'h': 0}],
+    'B': [{'tile': 'B', 'length': 1, 'h': 0}, {'tile': 'A', 'length': 5, 'h': 0}, {'tile': 'D', 'length': 6, 'h': 0}],
+    'C': [{'tile': 'C', 'length': 1, 'h': 0}, {'tile': 'D', 'length': 5, 'h': 0}, {'tile': 'A', 'length': 6, 'h': 0}],
+    'D': [{'tile': 'D', 'length': 1, 'h': 0}, {'tile': 'C', 'length': 5, 'h': 0}, {'tile': 'B', 'length': 6, 'h': 0}],
 }
 
 
