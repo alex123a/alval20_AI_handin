@@ -1,4 +1,5 @@
 import random
+import math
 
 
 p_mutation = 0.2
@@ -50,14 +51,13 @@ def reproduce(mother, father):
     # If 0 it will only choose the fathers and if 3 it will only choose the mother
     crossover_point = random.randint(0, 3)
     child = []
-    for i in range(0, crossover_point - 1):
+    for i in range(0, crossover_point):
         child.append(mother[i])
     
-    for i in range(crossover_point, len(father) - 1):
+    for i in range(crossover_point, len(father)):
         child.append(father[i])
 
-
-    return child
+    return (child[0], child[1], child[2])
 
 
 def mutate(individual):
@@ -66,14 +66,14 @@ def mutate(individual):
     Return the mutated individual
     '''
 
-    mutation = individual
+    mutation = [individual[0], individual[1], individual[2]]
     index = random.randint(0, 2)
     if (mutation[index] == 1):
         mutation[index] = 0
     else:
         mutation[index] = 1
 
-    return mutation
+    return (mutation[0], mutation[1], mutation[2])
 
 
 def random_selection(population, fitness_fn):
@@ -98,7 +98,7 @@ def random_selection(population, fitness_fn):
     population_fitness = []
 
     for i in ordered_population:
-        population_fitness.append(((fitness_fn(i) / total_fitness) * 100), i)
+        population_fitness.append((((fitness_fn(i) / total_fitness) * 100), i))
 
     population_fitness.sort()
     selected = [population_fitness[len(population_fitness) - 2][1], population_fitness[len(population_fitness) - 1][1]]
@@ -123,7 +123,7 @@ def fitness_function(individual):
     fitness = 0
     for gene in genes:
         if (gene[1] == 1):
-            fitness += 2**gene[0]
+            fitness += math.pow(2, gene[0])
 
     return fitness
 
@@ -161,4 +161,4 @@ def main():
 
 if __name__ == '__main__':
     pass
-    #main()
+    main()
