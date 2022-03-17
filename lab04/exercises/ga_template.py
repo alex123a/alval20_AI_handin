@@ -49,7 +49,7 @@ def reproduce(mother, father):
     Return the child individual
     '''
     # If 0 it will only choose the fathers and if 3 it will only choose the mother
-    crossover_point = random.randint(0, 3)
+    crossover_point = random.randint(0, len(father))
     child = []
     for i in range(0, crossover_point):
         child.append(mother[i])
@@ -57,7 +57,7 @@ def reproduce(mother, father):
     for i in range(crossover_point, len(father)):
         child.append(father[i])
 
-    return (child[0], child[1], child[2])
+    return tuple(child)
 
 
 def mutate(individual):
@@ -66,14 +66,14 @@ def mutate(individual):
     Return the mutated individual
     '''
 
-    mutation = [individual[0], individual[1], individual[2]]
-    index = random.randint(0, 2)
+    mutation = list(individual)
+    index = random.randint(0, len(individual) - 1)
     if (mutation[index] == 1):
         mutation[index] = 0
     else:
         mutation[index] = 1
 
-    return (mutation[0], mutation[1], mutation[2])
+    return tuple(mutation)
 
 
 def random_selection(population, fitness_fn):
