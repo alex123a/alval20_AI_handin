@@ -4,7 +4,7 @@ from queens_fitness import *
 
 
 p_mutation = 0.2
-num_of_generations = 10
+num_of_generations = 30
 
 
 def genetic_algorithm(population, fitness_fn, minimal_fitness):
@@ -17,11 +17,25 @@ def genetic_algorithm(population, fitness_fn, minimal_fitness):
         for i in range(len(population)):
             mother, father = random_selection(population, fitness_fn)
             child = reproduce(mother, father)
+            child2 = reproduce(mother, father)
 
             if random.uniform(0, 1) < p_mutation:
                 child = mutate(child)
+            if random.uniform(0, 1) < p_mutation:
+                child2 = mutate(child2)
 
             new_population.add(child)
+            new_population.add(child2)
+
+            ordered_population = list(new_population)
+
+            total_fitness = 0
+            for individuel in ordered_population:
+                total_fitness += fitness_fn(individuel)
+
+            for i in ordered_population:
+                if fitness_fn(i) < total_fitness/len(ordered_population): 
+                    new_population.remove(i)
 
         # Add new population to population, use union to disregard
         # duplicate individuals
@@ -128,8 +142,6 @@ def random_selection(population, fitness_fn):
         if (counter >= to_be_selected):
             selected.append(i[1])
             break
-
-    print(f'Test: {selected}')
 
     return selected
     
