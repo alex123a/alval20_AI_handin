@@ -190,7 +190,7 @@ def main():
     #initial_population = get_initial_population(3, 4)
 
     fittest = genetic_algorithm(initial_population, fitness_function, minimal_fitness)
-    print('Fittest Individual: ' + str(fittest))
+    print('Fittest Individual: ' + str(fittest) + ' minimal fitness ' + str(fitness_fn_negative(fittest)))
 
 
 if __name__ == '__main__':
