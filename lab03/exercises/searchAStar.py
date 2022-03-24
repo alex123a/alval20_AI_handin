@@ -90,13 +90,7 @@ def successor_fn(state):  # Lookup list of successor states
     best_route_dic = {'location': children[0]['location'], 'length': children[0]['length'], 'h': children[0]['h']}
     temp = temp_total_length + best_route_dic['length'] + best_route_dic['h']
     temp_length = 0
-    temp_index_parent = 0
-    temp_index = 0
     for i in range(1, len(children)):
-        # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
-        if children[i]['location'] == state:
-            STATE_SPACE[state][i] = {'location': children[i]['location'], 'length': temp_total_length + children[i]['length'], 'h': children[i]['h']}
-        
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']
         if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
@@ -113,8 +107,6 @@ def successor_fn(state):  # Lookup list of successor states
             temp = temp_length + children[i]['h']
     
     TOTAL_LENGTH = temp_total_length + best_route_dic['length']
-    if (STATE_SPACE[state][temp_index]['location'] != GOAL_STATE):
-        STATE_SPACE[state][temp_index] = {'location': best_route_dic['location'], 'length': temp_total_length + best_route_dic['length'], 'h': best_route_dic['h']}
     return best_route_dic['location']
     
 
@@ -124,15 +116,15 @@ GOAL_STATE = 'L' or 'K'
 # (Farmer status, Goat status, Cabbage status, Wolf status)
 STATE_SPACE = {
     'A': [{'location': 'B', 'length': 1, 'h': 5}, {'location': 'C', 'length': 2, 'h': 5}, {'location': 'D', 'length': 4, 'h': 2}],
-    'B': [{'location': 'F', 'length': 5, 'h': 5}, {'location': 'E', 'length': 4, 'h': 4}, {'location': 'A', 'length': 1, 'h': 6}],
+    'B': [{'location': 'F', 'length': 5, 'h': 5}, {'location': 'E', 'length': 4, 'h': 4}],
     'C': [{'location': 'E', 'length': 1, 'h': 4}, {'location': 'A', 'length': 2, 'h': 6}],
-    'D': [{'location': 'H', 'length': 1, 'h': 1}, {'location': 'I', 'length': 4, 'h': 2}, {'location': 'J', 'length': 2, 'h': 1}, {'location': 'A', 'length': 4, 'h': 6}],
+    'D': [{'location': 'H', 'length': 1, 'h': 1}, {'location': 'I', 'length': 4, 'h': 2}, {'location': 'J', 'length': 2, 'h': 1}],
     'F': [{'location': 'G', 'length': 1, 'h': 4}, {'location': 'B', 'length': 5, 'h': 5}],
-    'E': [{'location': 'G', 'length': 2, 'h': 4}, {'location': 'H', 'length': 3, 'h': 1}, {'location': 'B', 'length': 4, 'h': 4}, {'location': 'C', 'length': 1, 'h': 5}],
-    'H': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'L', 'length': 5, 'h': 0}, {'location': 'E', 'length': 3, 'h': 4}, {'location': 'B', 'length': 1, 'h': 2}],
-    'I': [{'location': 'L', 'length': 3, 'h': 0}, {'location': 'D', 'length': 4, 'h': 2}],
+    'E': [{'location': 'G', 'length': 2, 'h': 4}, {'location': 'H', 'length': 3, 'h': 1}],
+    'H': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'L', 'length': 5, 'h': 0}],
+    'I': [{'location': 'L', 'length': 3, 'h': 0}],
     'J': [{'location': 'D', 'length': 2, 'h': 2}],
-    'G': [{'location': 'K', 'length': 6, 'h': 0}, {'location': 'F', 'length': 1, 'h': 5}, {'location': 'E', 'length': 2, 'h': 4}],
+    'G': [{'location': 'K', 'length': 6, 'h': 0}],
     'K': [],
     'L': []
 }
