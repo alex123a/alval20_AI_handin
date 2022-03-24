@@ -129,10 +129,10 @@ GOAL_STATE = ['Clean', 'Clean', 'Clean', 'Clean']
 STATE_SPACE = {
     # Every list contains the same tile again (if this is chosen it will be cleaned) and the two tiles it can move to
     # I don't have "do nothing"
-    'A': [{'tile': 'A', 'length': 1, 'h': 0}, {'tile': 'B', 'length': 5, 'h': 0}, {'tile': 'C', 'length': 6, 'h': 0}],
-    'B': [{'tile': 'B', 'length': 1, 'h': 0}, {'tile': 'A', 'length': 5, 'h': 0}, {'tile': 'D', 'length': 6, 'h': 0}],
-    'C': [{'tile': 'C', 'length': 1, 'h': 0}, {'tile': 'D', 'length': 5, 'h': 0}, {'tile': 'A', 'length': 6, 'h': 0}],
-    'D': [{'tile': 'D', 'length': 1, 'h': 0}, {'tile': 'C', 'length': 5, 'h': 0}, {'tile': 'B', 'length': 6, 'h': 0}],
+    'A': [{'tile': 'A', 'length': 2, 'h': 0}, {'tile': 'B', 'length': 2, 'h': 0}, {'tile': 'C', 'length': 2, 'h': 0}],
+    'B': [{'tile': 'B', 'length': 2, 'h': 0}, {'tile': 'A', 'length': 2, 'h': 0}, {'tile': 'D', 'length': 2, 'h': 0}],
+    'C': [{'tile': 'C', 'length': 2, 'h': 0}, {'tile': 'D', 'length': 2, 'h': 0}, {'tile': 'A', 'length': 2, 'h': 0}],
+    'D': [{'tile': 'D', 'length': 2, 'h': 0}, {'tile': 'C', 'length': 2, 'h': 0}, {'tile': 'B', 'length': 2, 'h': 0}],
 }
 
 
