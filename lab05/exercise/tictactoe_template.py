@@ -28,7 +28,33 @@ def is_terminal(state):
     :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
     :return:
     """
-    pass
+
+    # Checking if tie
+    isTie = True
+    for i in state:
+        if isinstance(i):
+            isTie = False
+    
+    if isTie:
+        return True
+
+    # Checking rows
+    numbers = [0, 3, 6]
+    for i in numbers:
+        if state[i] == state[i + 1] == state[i + 2]:
+            return True
+
+    # Checking Columns
+    for i in range(0, 3):
+        if state[i] == state[i + 3] == state[i + 6]:
+            return True
+    
+    # Checking diagonal
+    if state[0] == state[4] == state[8] or state[2] == state[4] == state[6]:
+        return True
+    
+    # Returning False if none of the above are true.
+    return False
 
 
 def utility_of(state):
