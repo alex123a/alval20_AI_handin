@@ -32,7 +32,7 @@ def is_terminal(state):
     # Checking if tie
     isTie = True
     for i in state:
-        if isinstance(i):
+        if isinstance(i, int):
             isTie = False
     
     if isTie:
@@ -62,7 +62,7 @@ def utility_of(state):
     # Checking if tie
     isTie = True
     for i in state:
-        if isinstance(i):
+        if isinstance(i, int):
             isTie = False
     
     if isTie:
@@ -92,8 +92,19 @@ def successors_of(state):
     :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
     :return:
     """
-    pass
 
+    index_not_filled = []
+    for i in range(0, len(state)):
+        if isinstance(state[i], int):
+            index_not_filled.append(i)
+
+    successors = []
+    for i in index_not_filled:
+        temp = state[:]
+        temp[i] = 'X'
+        successors.append((i, temp))
+        
+    return successors
 
 def display(state):
     print("-----")
