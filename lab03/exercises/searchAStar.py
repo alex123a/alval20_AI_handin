@@ -94,15 +94,12 @@ def successor_fn(state):  # Lookup list of successor states
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']
         if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
-            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
         elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
-            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
         elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h < temp):
-            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
     
