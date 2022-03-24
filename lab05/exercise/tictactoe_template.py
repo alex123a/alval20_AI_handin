@@ -38,7 +38,7 @@ def is_terminal(state):
     if isTie:
         return True
 
-    # Checking Columns
+    # Checking columns and rows
     for i in range(0, 3):
         if state[i] == state[i + 3] == state[i + 6]:
             return True
@@ -68,18 +68,21 @@ def utility_of(state):
     if isTie:
         return 0
 
-    # Checking Columns
+    # Checking columns and rows
     for i in range(0, 3):
         if state[i] == state[i + 3] == state[i + 6]:
             return 1 if state[i] == 'X' else -1
         if state[i * 3] == state[i * 3 + 1] == state[i * 3 + 2]:
-            return 1 if state[i] == 'X' else -1
+            return 1 if state[i * 3] == 'X' else -1
 
     # Checking diagonal
-    if state[0] == state[4] == state[8] or state[2] == state[4] == state[6]:
-        return 1 if state[i] == 'X' else -1
+    if state[0] == state[4] == state[8]:
+        return 1 if state[0] == 'X' else -1
+
+    if state[2] == state[4] == state[6]:
+        return 1 if state[2] == 'X' else -1
     
-    # Returning False if none of the above are true.
+    # Returning 0 if none of the above are true.
     return 0
 
 
