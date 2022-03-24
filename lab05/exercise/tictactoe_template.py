@@ -34,6 +34,7 @@ def is_terminal(state):
     for i in state:
         if isinstance(i, int):
             isTie = False
+            break
     
     if isTie:
         return True
@@ -64,6 +65,7 @@ def utility_of(state):
     for i in state:
         if isinstance(i, int):
             isTie = False
+            break
     
     if isTie:
         return 0
@@ -103,7 +105,7 @@ def successors_of(state):
         temp = state[:]
         temp[i] = 'X'
         successors.append((i, temp))
-        
+
     return successors
 
 def display(state):
