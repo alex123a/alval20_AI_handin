@@ -59,7 +59,28 @@ def utility_of(state):
     :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
     :return:
     """
-    pass
+    # Checking if tie
+    isTie = True
+    for i in state:
+        if isinstance(i):
+            isTie = False
+    
+    if isTie:
+        return 0
+
+    # Checking Columns
+    for i in range(0, 3):
+        if state[i] == state[i + 3] == state[i + 6]:
+            return 1 if state[i] == 'X' else -1
+        if state[i * 3] == state[i * 3 + 1] == state[i * 3 + 2]:
+            return 1 if state[i] == 'X' else -1
+
+    # Checking diagonal
+    if state[0] == state[4] == state[8] or state[2] == state[4] == state[6]:
+        return 1 if state[i] == 'X' else -1
+    
+    # Returning False if none of the above are true.
+    return 0
 
 
 def successors_of(state):
