@@ -92,8 +92,6 @@ def successor_fn(state):  # Lookup list of successor states
     temp_length = 0
     temp_index = 0
     for i in range(1, len(children)):
-        # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
-        
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']
         if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
