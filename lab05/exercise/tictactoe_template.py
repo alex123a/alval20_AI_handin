@@ -38,17 +38,13 @@ def is_terminal(state):
     if isTie:
         return True
 
-    # Checking rows
-    numbers = [0, 3, 6]
-    for i in numbers:
-        if state[i] == state[i + 1] == state[i + 2]:
-            return True
-
     # Checking Columns
     for i in range(0, 3):
         if state[i] == state[i + 3] == state[i + 6]:
             return True
-    
+        if state[i * 3] == state[i * 3 + 1] == state[i * 3 + 2]:
+            return True
+
     # Checking diagonal
     if state[0] == state[4] == state[8] or state[2] == state[4] == state[6]:
         return True
