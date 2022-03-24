@@ -96,11 +96,8 @@ def successor_fn(state):  # Lookup list of successor states
     best_route_dic = {'tile': children[0]['tile'], 'length': children[0]['length'], 'h': children[0]['h']}
     temp = temp_total_length + best_route_dic['length'] + best_route_dic['h']
     temp_length = 0
-    temp_index_parent = 0
     temp_index = 0
     for i in range(1, len(children)):
-        # if children[i]['tile'] == state:
-        #     STATE_SPACE[state][i] = {'tile': children[i]['tile'], 'length': temp_total_length + children[i]['length'], 'h': children[i]['h']}
         
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']

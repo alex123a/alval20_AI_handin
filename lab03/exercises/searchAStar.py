@@ -90,20 +90,28 @@ def successor_fn(state):  # Lookup list of successor states
     best_route_dic = {'location': children[0]['location'], 'length': children[0]['length'], 'h': children[0]['h']}
     temp = temp_total_length + best_route_dic['length'] + best_route_dic['h']
     temp_length = 0
+    temp_index = 0
     for i in range(1, len(children)):
+        # TODO update length on the state_space, so when it goes to B, B's length change to the total_length
+        
         temp_length = temp_total_length + children[i]['length']
         temp_length_with_h = temp_length + children[i]['h']
         if (temp_length_with_h < temp and children[i]['location'] != GOAL_STATE):
+            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
         elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] != GOAL_STATE):
+            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
         elif (children[i]['location'] == GOAL_STATE and best_route_dic['location'] == GOAL_STATE and temp_length_with_h < temp):
+            temp_index = i
             best_route_dic = children[i]
             temp = temp_length + children[i]['h']
     
     TOTAL_LENGTH = temp_total_length + best_route_dic['length']
+    if (STATE_SPACE[state][temp_index]['location'] != GOAL_STATE):
+        STATE_SPACE[state][temp_index] = {'location': best_route_dic['location'], 'length': temp_total_length + best_route_dic['length'], 'h': best_route_dic['h']}
     return best_route_dic['location']
     
 
