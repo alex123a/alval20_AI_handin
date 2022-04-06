@@ -1,3 +1,5 @@
+from nim import successors_of, is_terminal, utility_of
+
 def alpha_beta_decision(state):
     infinity = float('inf')
 
@@ -30,7 +32,7 @@ def alpha_beta_decision(state):
     )
     return state
 
-
+'''
 def is_terminal(state):
     pass
 
@@ -41,6 +43,7 @@ def utility_of(state):
 
 def successors_of(state):
     pass
+'''
 
 
 def argmax(iterable, func):
