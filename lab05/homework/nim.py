@@ -1,9 +1,6 @@
 import random
-import alpha_beta
 
 def decision(state):
-
-    print(f'Successor states: {successors_of(state)}')
     def max_value(state):
         if is_terminal(state):
             return utility_of(state)
@@ -22,7 +19,7 @@ def decision(state):
         return v
 
     infinity = float('inf')
-    action, state = argmax(successors_of(state), lambda a: min_value(a))
+    action = argmax(successors_of(state), lambda a: min_value(a))
     return action
     
     '''
@@ -82,8 +79,8 @@ def successors_of(state):
     return successors
 
 def computer_select_pile(state):
-    new_state = alpha_beta.alpha_beta_decision(state)
-    # new_state = decision(state)
+    # new_state = alpha_beta.alpha_beta_decision(state)
+    new_state = decision(state)
     return new_state
 
 

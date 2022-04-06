@@ -1,5 +1,3 @@
-from nim import successors_of, is_terminal, utility_of
-
 def alpha_beta_decision(state):
     infinity = float('inf')
 
@@ -32,18 +30,52 @@ def alpha_beta_decision(state):
     )
     return state
 
-'''
+
 def is_terminal(state):
-    pass
+    """
+    returns True if the state is either a win or a tie (board full)
+    :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
+    :return:
+    """
+    print(f'What is the state given as parameter in is_terminal?: {state}')
+    # Checking if there is an avaible move.
+    done = True
+    for i in state:
+        if (i > 2):
+            done = False
+    return done
 
 
 def utility_of(state):
-    pass
+    """
+    returns +1 if winner is X (MAX player), -1 if winner is O (MIN player), or 0 otherwise
+    :param state: Sta+te of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
+    :return:
+    """
 
+    if (len(state) % 2 == 0):
+        return -1
+    else:
+        return 1
 
 def successors_of(state):
-    pass
-'''
+
+    index_accepted = []
+    for i in range(0, len(state)):
+        if state[i] > 2:
+            index_accepted.append(i)
+
+    successors = []
+    for i in index_accepted:
+        for j in range(1, state[i] // 2 + 1):
+            temp = state[:]
+            if (temp[i] - j == j):
+                break
+            temp[i] = temp[i] - j
+            temp.append(j)
+            successors.append((temp))
+
+    return successors
 
 
 def argmax(iterable, func):
