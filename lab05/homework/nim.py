@@ -125,7 +125,7 @@ def user_select_pile(list_of_piles):
 
 
 def main():
-    state = [7]
+    state = [15]
 
     while not is_terminal(state):
         state = user_select_pile(state)
