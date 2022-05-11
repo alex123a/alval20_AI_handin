@@ -37,8 +37,7 @@ def genetic_algorithm(population, fitness_fn, minimal_fitness):
                 if fitness_fn(i) < total_fitness/len(ordered_population): 
                     new_population.remove(i)
 
-        # Add new population to population, use union to disregard
-        # duplicate individuals
+        # Add new population to population, use union to disregard duplicate individuals
         population = population.union(new_population)
 
         fittest_individual = get_fittest_individual(population, fitness_fn)
@@ -171,9 +170,17 @@ def get_initial_population(n, count):
     Randomly generate count individuals of length n
     Note since its a set it disregards duplicate elements.
     '''
+
+    '''
     return set([
         tuple(random.randint(0, 1) for _ in range(n))
         for _ in range(count)
+    ])
+    '''
+    numbers = [0, 1, 2, 3, 4, 5, 6, 7]
+    random.shuffle(numbers)
+    return set([
+        tuple(numbers)
     ])
 
 
@@ -181,13 +188,15 @@ def main():
     minimal_fitness = 7
 
     # Curly brackets also creates a set, if there isn't a colon to indicate a dictionary
+    '''
     initial_population = {
         (2, 4, 7, 4, 8, 5, 5, 2),
         (3, 2, 7, 5, 2, 4, 1, 1),
         (2, 4, 4, 1, 5, 1, 2, 4),
         (3, 2, 5, 4, 3, 2, 1, 3)
     }
-    #initial_population = get_initial_population(3, 4)
+    '''
+    initial_population = get_initial_population(8, 4)
 
     fittest = genetic_algorithm(initial_population, fitness_function, minimal_fitness)
     print('Fittest Individual: ' + str(fittest) + ' minimal fitness ' + str(fitness_fn_negative(fittest)))
