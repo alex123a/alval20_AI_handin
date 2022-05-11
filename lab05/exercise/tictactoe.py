@@ -6,7 +6,6 @@ def minmax_decision(state):
         v = -infinity
         for (a, s) in successors_of(state):
             v = max(v, min_value(s))
-        # print('V: ' + str(v))
         return v
 
     def min_value(state):

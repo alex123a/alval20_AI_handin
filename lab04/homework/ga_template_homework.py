@@ -86,7 +86,7 @@ def mutate(individual):
     random_number = -1
     notAllowed = True
     while (notAllowed):
-        random_number = random.randint(1, 9)
+        random_number = random.randint(0, 8)
         if (random_number != mutation[index]):
             notAllowed = False
         
