@@ -6,7 +6,7 @@ def minmax_decision(state):
         v = -infinity
         for (a, s) in successors_of(state):
             v = max(v, min_value(s))
-        print('V: ' + str(v))
+        # print('V: ' + str(v))
         return v
 
     def min_value(state):
@@ -103,7 +103,9 @@ def successors_of(state):
     successors = []
     for i in index_not_filled:
         temp = state[:]
-        temp[i] = 'X'
+        x_amount = temp.count("X")
+        o_amount = temp.count("O")
+        temp[i] = 'X' if x_amount <= o_amount else 'O'
         successors.append((i, temp))
 
     return successors
