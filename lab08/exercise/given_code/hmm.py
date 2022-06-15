@@ -27,6 +27,10 @@ def main():
 
     # Markov transition matrix
     # transitions[start, end]
+    # For initial state the .8 is to Hot and .2 to Cold
+    # For Hot state the .6 is for Hot again, .3 to Cold and .1 to End
+    # For Cold state the .4 is to Hot, .5 for Cold again and .1 to End.
+    # So it looks like first number is for start state, second number for hot, third for cold and last for final
     transitions = np.array([[.0, .8, .2, .0],  # Initial state
                             [.0, .6, .3, .1],  # Hot state
                             [.0, .4, .5, .1],  # Cold state
