@@ -356,6 +356,7 @@ def print_marginal_probabilities(network):
 
 def sprinkler():
     # the values kept as dictionary
+    # At t3 for example the "false" is for when the condition is false. 0.8 is for when the state the tabel is for is false and the 0.2 is when the state is true.
     t1 = {(): (0.5, 0.5)}
     t2 = {('false',): (0.5, 0.5), ('true',): (0.9, 0.1)}
     t3 = {('false',): (0.8, 0.2), ('true',): (0.2, 0.8)}
@@ -395,6 +396,7 @@ def sprinkler():
 
     print('')
 
+    # Sprinkler points to WetGrass
     conditionals_vars = {'Sprinkler': 'true'}
     conditionals_evidents = {'WetGrass': 'true'}
 
@@ -404,6 +406,5 @@ def sprinkler():
 
     sample = create_random_sample(network)
     print_joint_probability(network, sample)
-
 
 sprinkler()
